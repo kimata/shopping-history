@@ -1,0 +1,15 @@
+[submodule "refs/amazhist"]
+	path = refs/amazhist
+	url = https://github.com/kimata/amazhist-python
+[submodule "refs/merhist"]
+	path = refs/merhist
+	url = https://github.com/kimata/merhist-python
+[submodule "refs/yahist"]
+	path = refs/yahist
+	url = https://github.com/kimata/yahist-python
+[submodule "refs/mohist"]
+	path = refs/mohist
+	url = https://github.com/kimata/mohist-python
+[submodule "refs/yodhist"]
+	path = refs/yodhist
+	url = https://github.com/kimata/yodhist-python
