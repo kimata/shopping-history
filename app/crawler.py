@@ -56,7 +56,7 @@ def execute(config, is_export_mode=False):
             local_lib.notify_slack.error(
                 config["slack"]["bot_token"],
                 config["slack"]["error"]["channel"]["name"],
-                "購買履歴取得エラー: {name}".format(name=name),
+                "購買履歴取得エラー: {name}".format(name=crawler_def["name"]),
                 traceback.format_exc(),
             )
 

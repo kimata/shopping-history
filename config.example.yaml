@@ -1,0 +1,90 @@
+# 購入履歴情報を取得するための，Amazon.co.jp のログイン情報
+login:
+  amazon:
+    user: Amazon.co.jp のユーザ名
+    pass: Amazon.co.jp のパスワード
+    
+  yahoo:
+    user: Yahoo! のユーザ名
+    mail: Yahoo! に登録したメールアドレス
+
+  yodobashi:
+    user: ヨドバシ.com のユーザ名
+    pass: ヨドバシ.com のパスワード
+    
+  monotaro:
+    user: モノタロウのユーザ名
+    pass: モノタロウに登録したメールアドレス
+    
+  mercari:
+    user: メルカリのユーザ名
+    pass: メルカリのパスワード
+
+# データ収集で使用する一時ファイルの置き場所
+data:
+  # Web ブラウザの作業フォルダ
+  selenium: data
+
+  # デバッグ用のファイルを生成するフォルダ
+  debug: data/debug
+
+  # 購入履歴関係のデータ
+  amazon:
+    cache:
+      # 収集した購入履歴情報 (どこまで取集したかの管理データ含む)
+      order: data/amazon/cache.dat
+      # サムネイル画像
+      thumb: data/amazon/thumb
+      
+  yahoo:
+    cache:
+      # 収集した購入履歴情報 (どこまで取集したかの管理データ含む)
+      order: data/yahoo/cache.dat
+      # サムネイル画像
+      thumb: data/yahoo/thumb
+
+  monotaro:
+    cache:
+      # 収集した購入履歴情報 (どこまで取集したかの管理データ含む)
+      order: data/monotaro/cache.dat
+      # サムネイル画像
+      thumb: data/monotaro/thumb
+
+  yodobashi:
+    cache:
+      # 収集した購入履歴情報 (どこまで取集したかの管理データ含む)
+      order: data/yodobashi/cache.dat
+      # サムネイル画像
+      thumb: data/yodobashi/thumb
+      
+  mercari:
+    cache:
+      # 収集した購入履歴情報 (どこまで取集したかの管理データ含む)
+      order: data/mercari/cache.dat
+      # サムネイル画像
+      thumb: data/mercari/thumb
+      
+# 出力ファイルの置き場所
+output:
+  # 画像認証画像
+  captcha: output/captcha.png
+
+  excel:
+    # フォント
+    font:
+      name: A-OTF UD新ゴ Pro R
+      size: 12
+    # 購入履歴が記載されたファイル
+    table: output/shopping.xlsx
+
+# 動作ログを Slack で通知したり，Slack 経由で認証コードを入力したい場合，以下を設定
+# slack:
+#     bot_token: xoxp-XXXXXXXXXXXX-XXXXXXXXXXXX-XXXXXXXXXXXXX-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+#
+#     from: Mercari Bot
+#
+#     error:
+#         channel:
+#             name: "#error"
+#             id: XXXXXXXXXXX
+#         interval_min: 180

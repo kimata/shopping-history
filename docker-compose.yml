@@ -1,0 +1,12 @@
+version: "3.9"
+
+services:
+  shopping-history:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    tty: true
+    stdin_open: true
+    volumes:
+      - ./data:/opt/shopping-history/data
+      - ./output:/opt/shopping-history/output
