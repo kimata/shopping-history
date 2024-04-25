@@ -21,41 +21,20 @@ build-image:
     - docker build . -t ${CI_REGISTRY_IMAGE}
     - docker push ${CI_REGISTRY_IMAGE}
 
-# deploy:
-#   stage: deploy
 
-#   needs: ["build-image"]
+renovate:
+  stage: renovate
+  image:
+    name: registry.green-rabbit.net:5000/kimata/local_renovate:36
 
-#   image:
-#     name: bitnami/kubectl:latest
-#     entrypoint: [""]
-#   script:
-#     - kubectl config get-contexts
-#     - kubectl config use-context kimata/shopping-history:pod-rollout
-#     - kubectl --insecure-skip-tls-verify=true rollout restart -n bot deployment shopping-history-deployment
-#   rules:
-#     # NOTE: 自動実行ではデプロイしない
-#     - if: '$CI_PIPELINE_SOURCE == "schedule"'
-#       when: never
-#     - changes:
-#         - pyproject.toml
-#         - Dockerfile
-#         - app/*
-#         - lib/*
-
-# renovate:
-#   stage: renovate
-#   image:
-#     name: registry.green-rabbit.net:5000/kimata/local_renovate:36
-
-#     entrypoint: [""]
-#   script:
-#     - renovate --platform gitlab --token ${RENOVATE_TOKEN} --endpoint ${CI_SERVER_URL}/api/v4 ${CI_PROJECT_PATH}
-#     # # NOTE: ついでにお掃除
-#     #  - docker rm $(docker ps -a --filter "status=exited" -q) || true
-#   rules:
-#     - if: '$CI_COMMIT_BRANCH != "master"'
-#       when: never
-#     - if: '$CI_PIPELINE_SOURCE == "schedule"'
-#     - changes:
-#         - renovate.json
+    entrypoint: [""]
+  script:
+    - renovate --platform gitlab --token ${RENOVATE_TOKEN} --endpoint ${CI_SERVER_URL}/api/v4 ${CI_PROJECT_PATH}
+    # # NOTE: ついでにお掃除
+    #  - docker rm $(docker ps -a --filter "status=exited" -q) || true
+  rules:
+    - if: '$CI_COMMIT_BRANCH != "master"'
+      when: never
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+    - changes:
+        - renovate.json
