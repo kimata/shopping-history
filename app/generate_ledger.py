@@ -33,7 +33,8 @@ import mercari.handle
 import mercari.transaction_history
 
 STATUS_ALL = "[generate] Excel file"
-
+STATUS_INSERT_BOUGHT_ITEM = "[generate] Insert bought item"
+STATUS_INSERT_SOLD_ITEM = "[generate] Insert sold item"
 
 CRAWLER_DEF_LIST = [
     {
@@ -70,9 +71,9 @@ def get_excel_font(config):
     return openpyxl.styles.Font(name=font_config["name"], size=font_config["size"])
 
 
-def get_sheet_def():
+def get_bought_sheet_def():
     sheet_def = copy.deepcopy(CRAWLER_DEF_LIST[0]["export_module"].SHEET_DEF)
-    sheet_def["SHEET_TITLE"] = "購入アイテム"
+    sheet_def["SHEET_TITLE"] = "購入"
 
     # NOTE: 全てに共通の列のみ残して，他は削除
     col_set = None
@@ -197,9 +198,11 @@ def get_thumb_path(handle_def_map, item):
     return handle_def["module"].get_thumb_path(handle_def["handle"], item)
 
 
-def generate_sheet(book, handle_def_map, is_need_thumb):
-    sheet_def = get_sheet_def()
+def generate_bought_sheet(handle, book, handle_def_map, is_need_thumb):
+    sheet_def = get_bought_sheet_def()
     item_list = get_bought_item_list()
+
+    CRAWLER_DEF_LIST[0]["handle_module"].set_progress_bar(handle, STATUS_INSERT_BOUGHT_ITEM, len(item_list))
 
     sheet = local_lib.openpyxl_util.generate_list_sheet(
         book,
@@ -209,9 +212,52 @@ def generate_sheet(book, handle_def_map, is_need_thumb):
         lambda item: get_thumb_path(handle_def_map, item),
         lambda status: None,
         lambda: None,
-        lambda: None,
+        lambda: CRAWLER_DEF_LIST[0]["handle_module"]
+        .get_progress_bar(handle, STATUS_INSERT_BOUGHT_ITEM)
+        .update(),
     )
     set_pattern_fill(sheet, sheet_def, sheet_def["TABLE_HEADER"]["row"]["pos"] + len(item_list))
+
+    CRAWLER_DEF_LIST[0]["handle_module"].get_progress_bar(handle, STATUS_INSERT_BOUGHT_ITEM).update()
+
+
+def get_sold_sheet_def():
+    sheet_def = copy.deepcopy(mercari.transaction_history.SHEET_DEF["SOLD"])
+    sheet_def["SHEET_TITLE"] = "販売"
+
+    return sheet_def
+
+
+def get_sold_item_list():
+    item_list = mercari.handle.get_sold_item_list(mercari.handle.create(config))
+
+    for item in item_list:
+        item["shop_name"] = mercari.transaction_history.SHOP_NAME
+
+    return item_list
+
+
+def generate_sold_sheet(handle, book, handle_def_map, is_need_thumb):
+    sheet_def = get_sold_sheet_def()
+    item_list = get_sold_item_list()
+
+    CRAWLER_DEF_LIST[0]["handle_module"].set_progress_bar(handle, STATUS_INSERT_SOLD_ITEM, len(item_list))
+
+    sheet = local_lib.openpyxl_util.generate_list_sheet(
+        book,
+        item_list,
+        sheet_def,
+        is_need_thumb,
+        lambda item: get_thumb_path(handle_def_map, item),
+        lambda status: None,
+        lambda: None,
+        lambda: CRAWLER_DEF_LIST[0]["handle_module"]
+        .get_progress_bar(handle, STATUS_INSERT_SOLD_ITEM)
+        .update(),
+    )
+    set_pattern_fill(sheet, sheet_def, sheet_def["TABLE_HEADER"]["row"]["pos"] + len(item_list))
+
+    CRAWLER_DEF_LIST[0]["handle_module"].get_progress_bar(handle, STATUS_INSERT_SOLD_ITEM).update()
 
 
 def generate_table_excel(config, is_need_thumb):
@@ -229,7 +275,10 @@ def generate_table_excel(config, is_need_thumb):
     book = openpyxl.Workbook()
     book._named_styles["Normal"].font = get_excel_font(config)
 
-    generate_sheet(book, handle_def_map, is_need_thumb)
+    handle = handle_def_map[CRAWLER_DEF_LIST[0]["export_module"].SHOP_NAME]["handle"]
+
+    generate_bought_sheet(handle, book, handle_def_map, is_need_thumb)
+    generate_sold_sheet(handle, book, handle_def_map, is_need_thumb)
 
     book.remove(book.worksheets[0])
 
