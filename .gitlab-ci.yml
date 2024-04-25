@@ -15,6 +15,7 @@ build-image:
     - git clone https://gitlab.green-rabbit.net/kimata/bot_config.git
     - mv bot_config/shopping_history.yaml config.yaml
     - git config --global --add safe.directory ${PWD}
+    - git submodule update --init --recursive
 
     - docker pull ${CI_REGISTRY_IMAGE} || true
     - docker build . -t ${CI_REGISTRY_IMAGE}
