@@ -24,11 +24,10 @@ import store_yodobashi.crawler
 import store_monotaro.handle
 import store_monotaro.crawler
 
-import mercari.handle
-import mercari.crawler
-
 import local_lib.notify_slack
 
+import mercari.handle
+import mercari.crawler
 
 CRAWLER_DEF_LIST = [
     {"name": "Amazon", "handle_module": store_amazon.handle, "crawler_module": store_amazon.crawler},

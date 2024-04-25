@@ -98,6 +98,9 @@ def get_bought_sheet_def():
             if key in sheet_def["TABLE_HEADER"]["col"][col_key]:
                 sheet_def["TABLE_HEADER"]["col"][col_key].pop(key)
 
+        if col_key == "no":
+            sheet_def["TABLE_HEADER"]["col"][col_key]["link_func"] = lambda item: item["order_url"]
+
     # NOTE: メルカリの場合，価格が取れない場合が存在するので，価格はオプション扱いにする
     sheet_def["TABLE_HEADER"]["col"]["price"]["optional"] = True
 
@@ -134,6 +137,13 @@ def get_bought_item_list():
     for crawler_def in CRAWLER_DEF_LIST:
         handle = crawler_def["handle_module"].create(config)
 
+        if "SHEET_TITLE" in crawler_def["export_module"].SHEET_DEF:
+            order_url_func = crawler_def["export_module"].SHEET_DEF["TABLE_HEADER"]["col"]["no"]["link_func"]
+        else:
+            order_url_func = crawler_def["export_module"].SHEET_DEF["BOUGHT"]["TABLE_HEADER"]["col"]["no"][
+                "link_func"
+            ]
+
         if crawler_def["name"] == "Mercari":
             item_list = crawler_def["handle_module"].get_bought_item_list(handle)
         else:
@@ -149,6 +159,8 @@ def get_bought_item_list():
             # FIXME: アマゾン用データの補正
             if "id" not in item:
                 item["id"] = item["asin"]
+
+            item["order_url"] = order_url_func(item)
 
         all_item_list += item_list
 
