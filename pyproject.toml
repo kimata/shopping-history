@@ -9,6 +9,7 @@ packages = [
     { include = "store_amazon", from = "refs/amazhist/lib" },
     { include = "store_yahoo", from = "refs/yahist/lib" },
     { include = "store_yodobashi", from = "refs/yodhist/lib" },
+    { include = "store_rakuten", from = "refs/rakhist/lib" },
     { include = "store_monotaro", from = "refs/mohist/lib" },
     { include = "mercari", from = "refs/merhist/lib" },
 ]

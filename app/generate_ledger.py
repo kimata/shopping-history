@@ -26,6 +26,9 @@ import store_yahoo.order_history
 import store_yodobashi.handle
 import store_yodobashi.order_history
 
+import store_rakuten.handle
+import store_rakuten.order_history
+
 import store_monotaro.handle
 import store_monotaro.order_history
 
@@ -51,6 +54,11 @@ CRAWLER_DEF_LIST = [
         "name": "Yodobashi",
         "handle_module": store_yodobashi.handle,
         "export_module": store_yodobashi.order_history,
+    },
+    {
+        "name": "Rakuten",
+        "handle_module": store_rakuten.handle,
+        "export_module": store_rakuten.order_history,
     },
     {
         "name": "Monotaro",

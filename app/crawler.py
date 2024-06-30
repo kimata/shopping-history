@@ -21,6 +21,9 @@ import store_yahoo.crawler
 import store_yodobashi.handle
 import store_yodobashi.crawler
 
+import store_rakuten.handle
+import store_rakuten.crawler
+
 import store_monotaro.handle
 import store_monotaro.crawler
 
@@ -33,6 +36,7 @@ CRAWLER_DEF_LIST = [
     {"name": "Amazon", "handle_module": store_amazon.handle, "crawler_module": store_amazon.crawler},
     {"name": "Yahoo", "handle_module": store_yahoo.handle, "crawler_module": store_yahoo.crawler},
     {"name": "Yodobashi", "handle_module": store_yodobashi.handle, "crawler_module": store_yodobashi.crawler},
+    {"name": "Rakuten", "handle_module": store_rakuten.handle, "crawler_module": store_rakuten.crawler},
     {"name": "Monotaro", "handle_module": store_monotaro.handle, "crawler_module": store_monotaro.crawler},
     {"name": "Mercari", "handle_module": mercari.handle, "crawler_module": mercari.crawler},
 ]

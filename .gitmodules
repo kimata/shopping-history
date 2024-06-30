@@ -13,3 +13,6 @@
 [submodule "refs/yodhist"]
 	path = refs/yodhist
 	url = https://github.com/kimata/yodhist-python
+[submodule "refs/rakhist"]
+	path = refs/rakhist
+	url = https://github.com/kimata/rakhist-python
