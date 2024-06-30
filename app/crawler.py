@@ -55,6 +55,7 @@ def execute(config, is_export_mode=False):
             logging.info("{name} の購買履歴の収集を完了しました．".format(name=crawler_def["name"]))
         except:
             logging.warning("{name} の購買履歴の収集中にエラーが発生しました．".format(name=crawler_def["name"]))
+            logging.error(traceback.format_exc())
 
             local_lib.notify_slack.error(
                 config["slack"]["bot_token"],
