@@ -177,11 +177,12 @@ def get_bought_item_list():
 
 def set_pattern_fill(sheet, sheet_def, row_last):
     shop_fill_list = [
-        {"name": store_amazon.order_history.SHOP_NAME, "color": "FF9900"},
-        {"name": store_monotaro.order_history.SHOP_NAME, "color": "D51B28"},
-        {"name": store_yodobashi.order_history.SHOP_NAME, "color": "FC2828"},
-        {"name": store_yahoo.order_history.SHOP_NAME, "color": "FF0033"},
-        {"name": mercari.transaction_history.SHOP_NAME, "color": "E72121"},
+        {"name": store_amazon.order_history.SHOP_NAME, "bgcolor": "FF9900", "fgcolor": "000000"},
+        {"name": store_monotaro.order_history.SHOP_NAME, "bgcolor": "D51B28", "fgcolor": "FFFFFF"},
+        {"name": store_yodobashi.order_history.SHOP_NAME, "bgcolor": "FC2828", "fgcolor": "000000"},
+        {"name": store_rakuten.order_history.SHOP_NAME, "bgcolor": "BF0000", "fgcolor": "FFFFFF"},
+        {"name": store_yahoo.order_history.SHOP_NAME, "bgcolor": "FF0033", "fgcolor": "000000"},
+        {"name": mercari.transaction_history.SHOP_NAME, "bgcolor": "E72121", "fgcolor": "000000"},
     ]
 
     for shop_fill in shop_fill_list:
@@ -195,7 +196,8 @@ def set_pattern_fill(sheet, sheet_def, row_last):
                     name=shop_fill["name"],
                 )
             ],
-            fill=openpyxl.styles.PatternFill(bgColor=shop_fill["color"], fill_type="solid"),
+            fill=openpyxl.styles.PatternFill(bgColor=shop_fill["bgcolor"], fill_type="solid"),
+            font=openpyxl.styles.Font(color=shop_fill["fgcolor"]),
         )
         sheet.conditional_formatting.add(
             "{start}:{end}".format(
