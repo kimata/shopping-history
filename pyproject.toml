@@ -31,7 +31,7 @@ speechrecognition = "^3.10.3"
 slack-sdk = "^3.27.1"
 
 [tool.poetry.group.dev.dependencies]
-nuitka = "^2.1.3"
+nuitka = "^4.0.0"
 
 [tool.pytest.ini_options]
 minversion = "6.0"
